@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    static async getAllClients() {
-      const clients = await sequelize.query('SELECT * FROM `clients`', {
+    static getAllClients() {
+      const clients = sequelize.query('SELECT * FROM `clients`', {
         type: QueryTypes.SELECT,
       });
       return clients;
