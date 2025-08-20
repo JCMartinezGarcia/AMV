@@ -1,7 +1,8 @@
 const { getClientsController } = require('../controllers');
 
-const getClientsHandler = (req, res) => {
-   
+const getClientsHandler = async (req, res) => {
+    const clients = await getClientsController();
+    return res.json(clients);
 }
 
 

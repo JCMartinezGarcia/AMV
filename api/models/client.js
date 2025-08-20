@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  QueryTypes
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Client extends Model {
@@ -11,6 +12,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    static async getAllClients() {
+      const clients = await sequelize.query('SELECT * FROM `clients`', {
+        type: QueryTypes.SELECT,
+      });
+      return clients;
     }
   }
   Client.init({
