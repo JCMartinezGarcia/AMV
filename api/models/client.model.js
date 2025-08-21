@@ -15,12 +15,23 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static getAllClients() {
-      const clients = sequelize.query('SELECT * FROM `clients`', {
+      const query = 'SELECT * FROM `clients`';
+      const clients = sequelize.query(query, {
         type: QueryTypes.SELECT,
       });
       return clients;
     }
+
+    static registerClient(clientData) {
+      console.log(clientData);return
+      const query = 'INSERT INTO `clients` (name, age, symptoms) VALUES ()';
+      const registeredClient = sequelize.query('SELECT * FROM `clients`', {
+        type: QueryTypes.INSERT,
+      });
+      return registeredClient;
+    }
   }
+
   Client.init({
     name: DataTypes.STRING,
     age: DataTypes.NUMBER,
