@@ -1,7 +1,7 @@
 const { Client } = require('../models');
 
-const getClientsController = async () => {
-    const clients = await Client.getAllClients();
+const getClientsController =  () => {
+    const clients = Client.getAllClients();
     return clients;
 }
 
