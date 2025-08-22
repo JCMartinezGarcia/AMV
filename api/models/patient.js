@@ -22,17 +22,27 @@ module.exports = (sequelize, DataTypes) => {
       return patient;
     }
 
-    static async registerPatient(patientData) {
+    static registerPatient(patientData) {
       const { name, age, symptoms } = patientData;
       const query = 'INSERT INTO patients (name, age, symptoms) VALUES (:name, :age, :symptoms)';
-      const registeredPatient = await sequelize.query(query, {
+      const registeredPatient = sequelize.query(query, {
         replacements: { name, age, symptoms },
         type: QueryTypes.INSERT,
       });
       return registeredPatient;
     }
 
+    static updatePatient(patientData, id) {
 
+      const { name, age, symptoms } = patientData;
+
+      const query = 'UPDATE patients SET name = :name, age = :age, symptoms = :symptoms WHERE id = :id';
+      const updatedPatient = sequelize.query(query, {
+        replacements: { name, age, symptoms, id },
+        type: QueryTypes.UPDATE,
+      });
+      return updatedPatient;
+    }
   }
   Patient.init({
     name: DataTypes.STRING,
