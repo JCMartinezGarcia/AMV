@@ -35,8 +35,14 @@ const updatePatientController = (patientData, id) => {
     return updated;
 }
 
+const deletePatientController = (id) => {
+    const deleted = Patient.deletePatient(id);
+    return deleted;
+}
+
 module.exports = {
     getPatientsController,
     registerPatientController,
-    updatePatientController
+    updatePatientController,
+    deletePatientController
 }

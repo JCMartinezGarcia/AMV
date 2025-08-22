@@ -1,11 +1,13 @@
 const {
     getPatientsController,
     registerPatientController,
-    updatePatientController
+    updatePatientController,
+    deletePatientController
 } = require('./patients.controller');
 
 module.exports = {
     getPatientsController,
     registerPatientController,
-    updatePatientController
+    updatePatientController,
+    deletePatientController
 };
