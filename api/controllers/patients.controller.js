@@ -40,9 +40,14 @@ const deletePatientController = (id) => {
     return deleted;
 }
 
+const searchPatientsController = (searchParameter) => {
+    const found = Patient.searchPatients(searchParameter);
+    return found;
+}
 module.exports = {
     getPatientsController,
     registerPatientController,
     updatePatientController,
-    deletePatientController
+    deletePatientController,
+    searchPatientsController
 }

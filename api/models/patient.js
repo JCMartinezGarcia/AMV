@@ -52,7 +52,19 @@ module.exports = (sequelize, DataTypes) => {
       });
       return deletedPatient;
     }
+
+    static searchPatients(param) {
+      const query = 'SELECT  * FROM patients WHERE name LIKE :search_parameter';
+      const foundPatients = sequelize.query(query, {
+        replacements: { search_parameter: `${param}%` },
+        type: QueryTypes.SELECT,
+      });
+      return foundPatients;
+    }
+
   }
+
+
   Patient.init({
     name: DataTypes.STRING,
     age: DataTypes.NUMBER,
