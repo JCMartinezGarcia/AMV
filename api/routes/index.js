@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const { getClientsHandler } = require('../handlers');
+const patientsRouter = require('./patients.route');
 
-router.use('/api/clients', getClientsHandler);
+router.use('/api/patients', patientsRouter);
 
 module.exports = router;

@@ -1,7 +1,9 @@
 const {
-    getClientsHandler
-} = require('./clients.handler');
+    getPatientsHandler,
+    registerPatientHandler
+} = require('./patients.handler');
 
 module.exports = {
-    getClientsHandler
+    getPatientsHandler,
+    registerPatientHandler
 }
