@@ -43,6 +43,15 @@ module.exports = (sequelize, DataTypes) => {
       });
       return updatedPatient;
     }
+
+    static deletePatient(id) {
+      const query = 'DELETE FROM patients WHERE id= :id';
+      const deletedPatient = sequelize.query(query, {
+        replacements: { id },
+        type: QueryTypes.DELETE,
+      });
+      return deletedPatient;
+    }
   }
   Patient.init({
     name: DataTypes.STRING,
