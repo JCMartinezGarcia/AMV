@@ -2,7 +2,8 @@ const {
     getPatientsController,
     registerPatientController,
     updatePatientController,
-    deletePatientController
+    deletePatientController,
+    searchPatientsController
 } = require('../controllers');
 
 const handleError = (message, error) => {
@@ -55,9 +56,20 @@ const deletePatientHandler = async (req, res) => {
     }
 }
 
+const searchPatientsHandler = async (req, res) => {
+    const { searchParameter } = req.body;
+    try {
+        const foundPatients = await searchPatientsController(searchParameter);
+        return res.status(200).json(foundPatients);
+    } catch (error) {
+        handleError('Error searching patients', error);
+    }
+}
+
 module.exports = {
     getPatientsHandler,
     registerPatientHandler,
     updatePatientHandler,
-    deletePatientHandler
+    deletePatientHandler,
+    searchPatientsHandler
 }
