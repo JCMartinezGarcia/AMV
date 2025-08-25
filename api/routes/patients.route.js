@@ -6,7 +6,8 @@ const {
     registerPatientHandler,
     updatePatientHandler,
     deletePatientHandler,
-    searchPatientsHandler
+    searchPatientsHandler,
+    countPatientsHandler
 } = require('../handlers');
 
 router.get('/list', getPatientsHandler);
@@ -14,5 +15,6 @@ router.post('/register', registerPatientHandler);
 router.put('/update/:id', updatePatientHandler);
 router.delete('/delete/:id', deletePatientHandler);
 router.post('/search', searchPatientsHandler);
+router.get('/count', countPatientsHandler);
 
 module.exports = router;

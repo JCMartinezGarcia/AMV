@@ -44,10 +44,17 @@ const searchPatientsController = (searchParameter) => {
     const found = Patient.searchPatients(searchParameter);
     return found;
 }
+
+const patientsCountController = () => {
+    const count = Patient.countPatients();
+    return count;
+}
+
 module.exports = {
     getPatientsController,
     registerPatientController,
     updatePatientController,
     deletePatientController,
-    searchPatientsController
+    searchPatientsController,
+    patientsCountController
 }

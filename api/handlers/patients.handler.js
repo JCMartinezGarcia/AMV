@@ -3,7 +3,8 @@ const {
     registerPatientController,
     updatePatientController,
     deletePatientController,
-    searchPatientsController
+    searchPatientsController,
+    patientsCountController
 } = require('../controllers');
 
 const handleError = (message, error) => {
@@ -66,10 +67,20 @@ const searchPatientsHandler = async (req, res) => {
     }
 }
 
+const countPatientsHandler = async (req, res) => {
+    try {
+        const patientsCount = await patientsCountController();
+        return res.status(200).json(patientsCount);
+    } catch (error) {
+        handleError('Error counting patients', error);
+    }
+}
+
 module.exports = {
     getPatientsHandler,
     registerPatientHandler,
     updatePatientHandler,
     deletePatientHandler,
-    searchPatientsHandler
+    searchPatientsHandler,
+    countPatientsHandler
 }

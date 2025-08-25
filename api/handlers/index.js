@@ -3,7 +3,8 @@ const {
     registerPatientHandler,
     updatePatientHandler,
     deletePatientHandler,
-    searchPatientsHandler
+    searchPatientsHandler,
+    countPatientsHandler
 } = require('./patients.handler');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
     registerPatientHandler,
     updatePatientHandler,
     deletePatientHandler,
-    searchPatientsHandler
+    searchPatientsHandler,
+    countPatientsHandler
 }
