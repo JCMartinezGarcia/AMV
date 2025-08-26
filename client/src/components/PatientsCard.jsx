@@ -1,7 +1,7 @@
 import { Card, CardBody } from "@heroui/react";
 const PatientsCard = ({ totalOfPatients }) => {
     return (
-        <div >
+        <div>
             <Card className="w-60 h-40 m-auto">
                 <CardBody>
                     <div><span><img src="src/assets/patients-avatar.svg" className="m-auto" width={60} /></span></div>
