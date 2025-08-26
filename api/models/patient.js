@@ -62,6 +62,14 @@ module.exports = (sequelize, DataTypes) => {
       return foundPatients;
     }
 
+    static countPatients() {
+      const query = 'SELECT COUNT(*) as total FROM patients';
+      const countedPatients = sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+      return countedPatients;
+    }
+
   }
 
 
