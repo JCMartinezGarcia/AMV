@@ -1,3 +1,4 @@
+
 const NavigationBar = () => {
     return (
         <div>
@@ -6,7 +7,7 @@ const NavigationBar = () => {
                     <span className="text-lg font-bold">AMV Logo</span>
                     <div className="">
                         <ul className="flex text-xl font-extrabold tracking-widest">
-                            <li><a href="patients">Pacientes</a></li>&nbsp;
+                            <li><a href="/patients">Pacientes</a></li>&nbsp;
                             <li>Médicos</li>&nbsp;
                             <li>Citas</li>
                         </ul>
