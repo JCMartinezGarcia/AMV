@@ -12,6 +12,10 @@ import {
     Tooltip,
 } from "@heroui/react";
 
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 export const columns = [
     { name: "NOMBRE", uid: "name" },
     { name: "EDAD", uid: "age" },
@@ -199,7 +203,8 @@ export const EditIcon = (props) => {
 //     vacation: "warning",
 // };
 
-export default function PatientsTable({ patients }) {
+export default function PatientsTable({ patients, reload }) {
+
     const [page, setPage] = React.useState(1);
     const rowsPerPage = 6;
     const pages = Math.ceil(patients.length / rowsPerPage);
@@ -210,6 +215,7 @@ export default function PatientsTable({ patients }) {
         return patients.slice(start, end);
     }, [page, patients]);
 
+    const navigate = useNavigate();
 
     const renderCell = React.useCallback((patient, columnKey) => {
         const cellValue = patient[columnKey];
@@ -252,7 +258,7 @@ export default function PatientsTable({ patients }) {
                             </span>
                         </Tooltip>
                         <Tooltip color="danger" content="Eliminar Paciente">
-                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => handleDeletePatient(patient.id)}  >
                                 <DeleteIcon />
                             </span>
                         </Tooltip>
@@ -262,6 +268,36 @@ export default function PatientsTable({ patients }) {
                 return cellValue;
         }
     }, []);
+
+    const handleError = (message, error) => {
+        console.error(`${message}:`, error);
+    }
+
+    const deletePatient = async (id) => {
+        try {
+            const response = await axios.delete(`patients/delete/${id}`);
+            return (response.status = 200) ? true : false;
+        } catch (error) {
+            handleError('Server Error:', error);
+        }
+    }
+    const handleDeletePatient = (id) => {
+        Swal.fire({
+            icon: "question",
+            title: "Eliminar Registro",
+            text: "Quieres elimnar este registro?",
+            confirmButtonText: "Eliminar",
+            showCancelButton: true,
+
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                if (await deletePatient(id)) {
+                    reload();
+                    Swal.fire("Paciente eliminado!", "", "success");
+                }
+            }
+        });
+    }
 
     return (
         <div className="flex flex-row justify-center m-4">
