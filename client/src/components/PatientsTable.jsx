@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Table,
     TableHeader,
@@ -7,14 +7,20 @@ import {
     TableRow,
     TableCell,
     Pagination,
-    User,
-    Chip,
     Tooltip,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    Button,
+    useDisclosure,
+    Form,
+    Input,
+    Textarea,
 } from "@heroui/react";
 
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export const columns = [
     { name: "NOMBRE", uid: "name" },
@@ -206,6 +212,10 @@ export const EditIcon = (props) => {
 export default function PatientsTable({ patients, reload }) {
 
     const [page, setPage] = React.useState(1);
+    const [updatePatient, setUpdatePatient] = useState({});
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [loading, setLoading] = useState(false);
+
     const rowsPerPage = 6;
     const pages = Math.ceil(patients.length / rowsPerPage);
     const patientItems = React.useMemo(() => {
@@ -215,7 +225,6 @@ export default function PatientsTable({ patients, reload }) {
         return patients.slice(start, end);
     }, [page, patients]);
 
-    const navigate = useNavigate();
 
     const renderCell = React.useCallback((patient, columnKey) => {
         const cellValue = patient[columnKey];
@@ -253,7 +262,7 @@ export default function PatientsTable({ patients, reload }) {
                             </span>
                         </Tooltip>
                         <Tooltip content="Editar Paciente">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50" onClick={() => handleUpdatePatient(patient)}>
                                 <EditIcon />
                             </span>
                         </Tooltip>
@@ -269,6 +278,15 @@ export default function PatientsTable({ patients, reload }) {
         }
     }, []);
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const data = Object.fromEntries(new FormData(e.currentTarget));
+        setTimeout(() => {
+            editPatient(updatePatient.id, data);
+        }, 2000);
+    };
+
     const handleError = (message, error) => {
         console.error(`${message}:`, error);
     }
@@ -281,6 +299,34 @@ export default function PatientsTable({ patients, reload }) {
             handleError('Server Error:', error);
         }
     }
+
+    const editPatient = async (id, data) => {
+        try {
+            const response = await axios.put(`patients/update/${id}`, data);
+            if (response.data) {
+                setLoading(false);
+                Swal.fire({
+                    icon: "success",
+                    title: "Paciente Editado",
+                    text: "Los datos del paciente se acualizaron",
+                    confirmButtonText: "OK",
+
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        reload();
+                    }
+                });
+            }
+        } catch (error) {
+            handleError('Server Error:', error);
+        }
+    }
+
+    const handleUpdatePatient = (patient) => {
+        setUpdatePatient(patient);
+        onOpen();
+    }
+
     const handleDeletePatient = (id) => {
         Swal.fire({
             icon: "question",
@@ -300,43 +346,100 @@ export default function PatientsTable({ patients, reload }) {
     }
 
     return (
-        <div className="flex flex-row justify-center m-4">
-            <Table
-                className="basis-210"
-                aria-label="Example table with custom cells"
-                bottomContent={
-                    <div className="flex w-full justify-center">
-                        <Pagination
-                            isCompact
-                            showControls
-                            showShadow
-                            color="primary"
-                            page={page}
-                            total={pages}
-                            onChange={(page) => setPage(page)}
-                        />
-                    </div>
-                }
-                classNames={{
-                    wrapper: "min-h-[222px]",
-                }}
-            >
-                <TableHeader columns={columns}>
-                    {(column) => (
-                        <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-                            {column.name}
-                        </TableColumn>
+        <>
+
+            <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Actualizar Paciente</ModalHeader>
+                            <ModalBody>
+                                <Form onSubmit={onSubmit}>
+                                    <Input
+                                        endContent={''
+                                            // <MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
+                                        }
+                                        name="name"
+                                        label="Nombre del Paciente"
+                                        placeholder="Ingresa el nombre del paciente"
+                                        variant="bordered"
+                                        defaultValue={updatePatient.name}
+                                    />
+                                    <Input
+                                        endContent={''
+                                            // <LockIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
+                                        }
+                                        name="age"
+                                        label="Edad del Paciente"
+                                        placeholder="Ingresa la edad del paciente"
+                                        type="number"
+                                        variant="bordered"
+                                        defaultValue={updatePatient.age}
+                                    />
+                                    <Textarea
+                                        label="Sintomas del Paciente"
+                                        placeholder="Ingresa los sintomas del paciente"
+                                        name="symptoms"
+                                        variant="bordered"
+                                        defaultValue={updatePatient.symptoms}
+                                    />
+                                    <div className="flex justify-end w-full m-2">
+                                        <Button color="danger" variant="flat" onPress={onClose}>
+                                            Cancelar
+                                        </Button>&nbsp;
+                                        {(loading) ?
+                                            <Button isLoading color="primary"></Button> :
+                                            <Button color="primary" type="submit">
+                                                Actualizar
+                                            </Button>
+                                        }
+                                    </div>
+                                </Form>
+                            </ModalBody>
+                            {/* <ModalFooter></ModalFooter> */}
+                        </>
                     )}
-                </TableHeader>
-                <TableBody items={patientItems}>
-                    {(item) => (
-                        <TableRow key={item.id}>
-                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </div>
+                </ModalContent>
+            </Modal>
+            
+            <div className="flex flex-row justify-center m-4">
+                <Table
+                    className="basis-210"
+                    aria-label="Example table with custom cells"
+                    bottomContent={
+                        <div className="flex w-full justify-center">
+                            <Pagination
+                                isCompact
+                                showControls
+                                showShadow
+                                color="primary"
+                                page={page}
+                                total={pages}
+                                onChange={(page) => setPage(page)}
+                            />
+                        </div>
+                    }
+                    classNames={{
+                        wrapper: "min-h-[222px]",
+                    }}
+                >
+                    <TableHeader columns={columns}>
+                        {(column) => (
+                            <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+                                {column.name}
+                            </TableColumn>
+                        )}
+                    </TableHeader>
+                    <TableBody items={patientItems}>
+                        {(item) => (
+                            <TableRow key={item.id}>
+                                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+        </>
     );
 }
 
