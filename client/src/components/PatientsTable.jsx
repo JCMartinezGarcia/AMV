@@ -12,6 +12,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalBody,
+    ModalFooter,
     Button,
     useDisclosure,
     Form,
@@ -213,6 +214,9 @@ export default function PatientsTable({ patients, reload }) {
 
     const [page, setPage] = React.useState(1);
     const [updatePatient, setUpdatePatient] = useState({});
+    const [detailsPatient, setDetailsPatient] = useState({});
+    const [openDetailsModal, setOpenDetailsModal] = useState(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState(true);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [loading, setLoading] = useState(false);
 
@@ -257,7 +261,7 @@ export default function PatientsTable({ patients, reload }) {
                 return (
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Detalles">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50" onClick={() => { handleDetailsPatient(patient) }}>
                                 <EyeIcon />
                             </span>
                         </Tooltip>
@@ -323,7 +327,16 @@ export default function PatientsTable({ patients, reload }) {
     }
 
     const handleUpdatePatient = (patient) => {
+        setOpenDetailsModal(false);
+        setOpenUpdateModal(true);
         setUpdatePatient(patient);
+        onOpen();
+    }
+
+    const handleDetailsPatient = (patient) => {
+        setOpenUpdateModal(false);
+        setOpenDetailsModal(true);
+        setDetailsPatient(patient);
         onOpen();
     }
 
@@ -344,64 +357,94 @@ export default function PatientsTable({ patients, reload }) {
             }
         });
     }
+    const updateModalContent = (onClose) => (
+        <>
+            <ModalHeader className="flex flex-col gap-1">Actualizar Paciente</ModalHeader>
+            <ModalBody>
+                <Form onSubmit={onSubmit}>
+                    <Input
+                        endContent={''
+                            // <MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
+                        }
+                        name="name"
+                        label="Nombre del Paciente"
+                        placeholder="Ingresa el nombre del paciente"
+                        variant="bordered"
+                        defaultValue={updatePatient.name}
+                    />
+                    <Input
+                        endContent={''
+                            // <LockIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
+                        }
+                        name="age"
+                        label="Edad del Paciente"
+                        placeholder="Ingresa la edad del paciente"
+                        type="number"
+                        variant="bordered"
+                        defaultValue={updatePatient.age}
+                    />
+                    <Textarea
+                        label="Sintomas del Paciente"
+                        placeholder="Ingresa los sintomas del paciente"
+                        name="symptoms"
+                        variant="bordered"
+                        defaultValue={updatePatient.symptoms}
+                    />
+                    <div className="flex justify-end w-full m-2">
+                        <Button color="danger" variant="flat" onPress={onClose}>
+                            Cancelar
+                        </Button>&nbsp;
+                        {(loading) ?
+                            <Button isLoading color="primary"></Button> :
+                            <Button color="primary" type="submit">
+                                Actualizar
+                            </Button>
+                        }
+                    </div>
+                </Form>
+            </ModalBody>
+            {/* <ModalFooter></ModalFooter> */}
+        </>
+    );
+
+    const detailsModalContent = (onClose) => (
+        <>
+            <ModalHeader className="flex flex-col gap-1">Detalles del Paciente</ModalHeader>
+            <ModalBody>
+                <div>
+                    <label className="text-md font-bold">Nombre del Paciente:</label>
+                    <p>{detailsPatient.name}</p>
+                </div>
+                <div>
+                    <label className="text-md font-bold">Edad del Paciente:</label>
+                    <p>{detailsPatient.age}</p>
+                </div>
+                <div>
+                    <label className="text-md font-bold">Edad del Paciente:</label>
+                    <p>{detailsPatient.symptoms}</p>
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                    Cerrar
+                </Button>
+                {/* <Button color="primary" onPress={onClose}>
+                                        Action
+                                    </Button> */}
+            </ModalFooter>
+        </>
+    );
 
     return (
         <>
+            <>
+                <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                    <ModalContent>
+                        {(openDetailsModal) ? detailsModalContent : updateModalContent}
+                    </ModalContent>
+                </Modal>
+            </>
 
-            <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">Actualizar Paciente</ModalHeader>
-                            <ModalBody>
-                                <Form onSubmit={onSubmit}>
-                                    <Input
-                                        endContent={''
-                                            // <MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
-                                        }
-                                        name="name"
-                                        label="Nombre del Paciente"
-                                        placeholder="Ingresa el nombre del paciente"
-                                        variant="bordered"
-                                        defaultValue={updatePatient.name}
-                                    />
-                                    <Input
-                                        endContent={''
-                                            // <LockIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
-                                        }
-                                        name="age"
-                                        label="Edad del Paciente"
-                                        placeholder="Ingresa la edad del paciente"
-                                        type="number"
-                                        variant="bordered"
-                                        defaultValue={updatePatient.age}
-                                    />
-                                    <Textarea
-                                        label="Sintomas del Paciente"
-                                        placeholder="Ingresa los sintomas del paciente"
-                                        name="symptoms"
-                                        variant="bordered"
-                                        defaultValue={updatePatient.symptoms}
-                                    />
-                                    <div className="flex justify-end w-full m-2">
-                                        <Button color="danger" variant="flat" onPress={onClose}>
-                                            Cancelar
-                                        </Button>&nbsp;
-                                        {(loading) ?
-                                            <Button isLoading color="primary"></Button> :
-                                            <Button color="primary" type="submit">
-                                                Actualizar
-                                            </Button>
-                                        }
-                                    </div>
-                                </Form>
-                            </ModalBody>
-                            {/* <ModalFooter></ModalFooter> */}
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-            
             <div className="flex flex-row justify-center m-4">
                 <Table
                     className="basis-210"
