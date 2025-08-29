@@ -53,7 +53,7 @@ const Patients = () => {
                 <SearchPatients />
                 <RegisterPatientButton />
             </div>
-            <PatientsTable patients={patients} />
+            <PatientsTable patients={patients} reload={getPatients} />
         </div>
     );
 }

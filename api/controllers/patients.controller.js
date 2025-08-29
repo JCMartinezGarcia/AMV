@@ -33,8 +33,9 @@ const updatePatientController = (patientData, id) => {
     return updated;
 }
 
-const deletePatientController = (id) => {
-    const deleted = Patient.deletePatient(id);
+const deletePatientController = async (id) => {
+    const deleted = await Patient.deletePatient(id);
+    console.log('deleted:', deleted);
     return deleted;
 }
 
