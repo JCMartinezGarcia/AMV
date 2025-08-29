@@ -11,14 +11,12 @@ const registerPatientController = (patientData) => {
 
     const schema = Joi.object({
         name: Joi.string()
-            .alphanum()
             .required(),
         age: Joi.number()
             .integer()
             .min(1)
             .required(),
         symptoms: Joi.string()
-            .alphanum()
             .required()
     });
 
