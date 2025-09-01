@@ -1,3 +1,4 @@
+// handler/patientsHandler.js
 const {
     getPatientsController,
     registerPatientController,
@@ -7,74 +8,68 @@ const {
     patientsCountController
 } = require('../controllers');
 
-const handleError = (message, error) => {
+// centralized error response
+const handleError = (res, message, error, status = 500) => {
     console.error(`${message}:`, error.message);
-}
+    return res.status(status).json({ error: message, details: error.message });
+};
 
 const getPatientsHandler = async (req, res) => {
     try {
         const patients = await getPatientsController();
-        return res.json(
-            {
-                message: (!patients.length) ? 'No existen registros de pacientes.' : '',
-                patients
-            }
-        )
+        return res.json({
+            message: patients.length ? '' : 'No existen registros de pacientes.',
+            patients
+        });
     } catch (error) {
-        handleError('Error retrieving patients:', error);
+        return handleError(res, 'Error retrieving patients', error);
     }
-}
+};
 
 const registerPatientHandler = async (req, res) => {
-
     try {
         const registered = await registerPatientController(req.body);
-        return res.status(201).json(registered[1]);
+        return res.status(201).json(registered[1]); // registered[1] is the metadata
     } catch (error) {
-        handleError('Error registering new patient', error);
+        return handleError(res, 'Error registering new patient', error, 400);
     }
-}
+};
 
 const updatePatientHandler = async (req, res) => {
-
-    const { id } = req.params;
-
     try {
-        const updated = await updatePatientController(req.body, id);
+        const updated = await updatePatientController(req.body, req.params.id);
         return res.status(200).json(updated[1]);
     } catch (error) {
-        handleError('Error updating patient', error);
+        return handleError(res, 'Error updating patient', error);
     }
-}
+};
 
 const deletePatientHandler = async (req, res) => {
-    const { id } = req.params;
     try {
-        const deleted = await deletePatientController(id);
+        const deleted = await deletePatientController(req.params.id);
         return res.status(200).json(deleted);
     } catch (error) {
-        handleError('Error deleting patient', error);
+        return handleError(res, 'Error deleting patient', error);
     }
-}
+};
 
 const searchPatientsHandler = async (req, res) => {
-    const { searchParameter } = req.body;
     try {
-        const foundPatients = await searchPatientsController(searchParameter);
+        const foundPatients = await searchPatientsController(req.body.searchParameter);
         return res.status(200).json(foundPatients);
     } catch (error) {
-        handleError('Error searching patients', error);
+        return handleError(res, 'Error searching patients', error);
     }
-}
+};
 
-const countPatientsHandler = async (req, res) => {
+const countPatientsHandler = async (_req, res) => {
     try {
         const patientsCount = await patientsCountController();
         return res.status(200).json(patientsCount);
     } catch (error) {
-        handleError('Error counting patients', error);
+        return handleError(res, 'Error counting patients', error);
     }
-}
+};
 
 module.exports = {
     getPatientsHandler,
@@ -83,4 +78,4 @@ module.exports = {
     deletePatientHandler,
     searchPatientsHandler,
     countPatientsHandler
-}
+};

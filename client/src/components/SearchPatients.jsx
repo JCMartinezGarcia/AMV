@@ -1,29 +1,42 @@
+import { useState, useEffect } from "react";
 import { Input } from "@heroui/react";
 import axios from "axios";
 
 const SearchPatients = ({ foundPatients }) => {
-
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleError = (message, error) => {
         console.error(`${message}:`, error);
-    }
+    };
 
-    const searchPatients = async (searchParameter) => {
+    // Debounce the search to avoid too many requests
+    useEffect(() => {
+        if (!searchTerm) {
+            foundPatients([]); // Clear results if input is empty
+            return;
+        }
+
+        const delayDebounce = setTimeout(() => {
+            searchPatients(searchTerm);
+        }, 500); // 500ms delay
+
+        return () => clearTimeout(delayDebounce);
+    }, [searchTerm]);
+
+    const searchPatients = async (param) => {
         try {
-            const response = await axios.post('patients/search', { searchParameter });
-            const { data } = response;
-            if (data.length) {
-                foundPatients(data);
+            const response = await axios.post("patients/search", { searchParameter: param });
+            if (response.data) {
+                foundPatients(response.data);
             }
         } catch (error) {
-            handleError('Server Error:', error);
+            handleError("Server Error", error);
         }
-    }
+    };
 
-    const handleSearchPatients = (event) => {
-        const value = event.target.value;
-        searchPatients(value);
-    }
+    const handleChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
 
     return (
         <div>
@@ -31,9 +44,12 @@ const SearchPatients = ({ foundPatients }) => {
                 label="Buscar pacientes"
                 type="text"
                 size="sm"
-                onChange={handleSearchPatients} />
+                value={searchTerm}
+                onChange={handleChange}
+                placeholder="Ingresa nombre del paciente"
+            />
         </div>
     );
-}
+};
 
 export default SearchPatients;
