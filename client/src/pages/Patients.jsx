@@ -5,6 +5,7 @@ import PatientsTable from "../components/PatientsTable";
 import axios from "axios";
 import SearchPatients from "../components/SearchPatients";
 import RegisterPatientButton from "../components/RegisterPatientButton";
+import Footer from "../components/Footer";
 const Patients = () => {
 
     const [totalPatients, setTotalPatients] = useState(0);
@@ -47,7 +48,7 @@ const Patients = () => {
             {/* <span className="text-xl font-extrabold tracking-widest">Asistente Médico Virtual</span> */}
             <br />
             <div className="flex flex-row justify-center">
-                <PatientsCard total={totalPatients} text={'Pacientes Registrados'}  />
+                <PatientsCard total={totalPatients} text={'Pacientes Registrados'} imgUrl={'src/assets/user-avatar.svg'} />
             </div>
             <br />
             <br />
@@ -56,6 +57,7 @@ const Patients = () => {
                 <RegisterPatientButton />
             </div>
             <PatientsTable patients={patients} reload={getPatients} />
+            <Footer />
         </div>
     );
 }

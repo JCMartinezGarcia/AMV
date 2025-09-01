@@ -445,7 +445,7 @@ export default function PatientsTable({ patients, reload }) {
                 </Modal>
             </>
 
-            <div className="flex flex-row justify-center m-4">
+            <div className="flex flex-row justify-center m-4 p-4">
                 <Table
                     className="basis-210"
                     aria-label="Example table with custom cells"
