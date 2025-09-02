@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import UserDropdown from "./UerDropdown";
 
 const NavigationBar = () => {
     return (
@@ -32,14 +33,7 @@ const NavigationBar = () => {
                 </ul>
 
                 {/* User Section */}
-                <div className="flex items-center gap-2">
-                    <img
-                        src="/src/assets/user-avatar.svg"
-                        alt="Usuario"
-                        className="w-8 h-8 rounded-full border border-gray-300"
-                    />
-                    <span className="text-sm font-medium">medico@amv.com</span>
-                </div>
+                <UserDropdown />
             </div>
         </nav>
     );

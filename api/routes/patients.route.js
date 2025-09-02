@@ -10,6 +10,10 @@ const {
     countPatientsHandler
 } = require('../handlers');
 
+// const authMiddleware = require('../middlewares/authMiddleware');
+
+// router.use(authMiddleware); // All patient routes are protected
+
 router.get('/list', getPatientsHandler);
 router.post('/register', registerPatientHandler);
 router.put('/update/:id', updatePatientHandler);
