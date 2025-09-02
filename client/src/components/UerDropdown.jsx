@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 
 const UserDropdown = () => {
     const { user, logout } = useAuth();
-
     return (
         <div className="flex items-center gap-2">
             <img
@@ -13,7 +12,7 @@ const UserDropdown = () => {
             />
             <Dropdown>
                 <DropdownTrigger>
-                    <span className="text-sm font-medium">medico@amv.com</span>
+                    <span className="text-sm font-medium">{user.email}</span>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                     <DropdownItem key="delete" className="text-danger" color="danger" onPress={logout}>

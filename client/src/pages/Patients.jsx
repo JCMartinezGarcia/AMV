@@ -62,7 +62,7 @@ const Patients = () => {
                 </section>
 
                 <section className="flex justify-between items-center m-6">
-                    <SearchPatients foundPatients={setPatients} />
+                    <SearchPatients foundPatients={setPatients} reloadTable={getPatients} />
                     <RegisterPatientButton />
                 </section>
 
