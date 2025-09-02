@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Clients', [
+    await queryInterface.bulkInsert('Patients', [
       {
         name: 'Juan Perez',
         age: 40,
@@ -65,6 +65,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    return queryInterface.bulkDelete('Clients', null, {});
+    return queryInterface.bulkDelete('Patients', null, {});
   }
 };
