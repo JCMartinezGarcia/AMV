@@ -57,3 +57,6 @@ docker-compose.override.yml
 # Optional: If you use Prisma or other ORM migrations
 prisma/migrations/dev.db
 prisma/migrations/*.db-journal
+
+#Sqlite file
+database.sqlite
