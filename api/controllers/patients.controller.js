@@ -1,53 +1,39 @@
+// controller/patientsController.js
 const { ValidationError } = require('sequelize');
 const { Patient } = require('../models');
 const Joi = require('joi');
 
-const getPatientsController = () => {
-    const patients = Patient.getAllPatients();
-    return patients;
-}
+const patientSchema = Joi.object({
+    name: Joi.string().required(),
+    age: Joi.number().integer().min(1).required(),
+    symptoms: Joi.string().required()
+});
 
-const registerPatientController = (patientData) => {
+const getPatientsController = async () => {
+    return await Patient.getAllPatients();
+};
 
-    const schema = Joi.object({
-        name: Joi.string()
-            .required(),
-        age: Joi.number()
-            .integer()
-            .min(1)
-            .required(),
-        symptoms: Joi.string()
-            .required()
-    });
+const registerPatientController = async (patientData) => {
+    const { error, value } = patientSchema.validate(patientData);
+    if (error) throw new ValidationError(error.message);
+    return await Patient.registerPatient(value);
+};
 
-    const { error, value } = schema.validate(patientData);
-    if (error) {
-        throw new ValidationError({ message: error.message });
-    }
-    const registered = Patient.registerPatient(value);
-    return registered;
-}
-
-const updatePatientController = (patientData, id) => {
-    const updated = Patient.updatePatient(patientData, id);
-    return updated;
-}
+const updatePatientController = async (patientData, id) => {
+    return await Patient.updatePatient(patientData, id);
+};
 
 const deletePatientController = async (id) => {
-    const deleted = await Patient.deletePatient(id);
-    console.log('deleted:', deleted);
-    return deleted;
-}
+    return await Patient.deletePatient(id);
+};
 
-const searchPatientsController = (searchParameter) => {
-    const found = Patient.searchPatients(searchParameter);
-    return found;
-}
+const searchPatientsController = async (searchParameter) => {
+    return await Patient.searchPatients(searchParameter);
+};
 
-const patientsCountController = () => {
-    const count = Patient.countPatients();
-    return count;
-}
+const patientsCountController = async () => {
+    return await Patient.countPatients();
+};
 
 module.exports = {
     getPatientsController,
@@ -56,4 +42,4 @@ module.exports = {
     deletePatientController,
     searchPatientsController,
     patientsCountController
-}
+};

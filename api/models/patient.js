@@ -1,85 +1,70 @@
 'use strict';
-const {
-  Model,
-  QueryTypes,
-} = require('sequelize');
+const { Model, QueryTypes } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Patient extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
     }
 
-    static getAllPatients() {
-      const query = 'SELECT * FROM `patients`';
-      const patient = sequelize.query(query, {
-        type: QueryTypes.SELECT,
-      });
-      return patient;
+    static async getAllPatients() {
+      return await sequelize.query('SELECT * FROM patients', { type: QueryTypes.SELECT });
     }
 
-    static registerPatient(patientData) {
-      const { name, age, symptoms } = patientData;
-      const query = 'INSERT INTO patients (name, age, symptoms) VALUES (:name, :age, :symptoms)';
-      const registeredPatient = sequelize.query(query, {
-        replacements: { name, age, symptoms },
-        type: QueryTypes.INSERT,
-      });
-      return registeredPatient;
+    static async registerPatient({ name, age, symptoms }) {
+      return await sequelize.query(
+        'INSERT INTO patients (name, age, symptoms) VALUES (:name, :age, :symptoms)',
+        {
+          replacements: { name, age, symptoms },
+          type: QueryTypes.INSERT
+        }
+      );
     }
 
-    static updatePatient(patientData, id) {
-
-      const { name, age, symptoms } = patientData;
-
-      const query = 'UPDATE patients SET name = :name, age = :age, symptoms = :symptoms WHERE id = :id';
-      const updatedPatient = sequelize.query(query, {
-        replacements: { name, age, symptoms, id },
-        type: QueryTypes.UPDATE,
-      });
-      return updatedPatient;
+    static async updatePatient({ name, age, symptoms }, id) {
+      return await sequelize.query(
+        'UPDATE patients SET name = :name, age = :age, symptoms = :symptoms WHERE id = :id',
+        {
+          replacements: { name, age, symptoms, id },
+          type: QueryTypes.UPDATE
+        }
+      );
     }
 
-    static deletePatient(id) {
-      const query = 'DELETE FROM patients WHERE id= :id';
-      const deletedPatient = sequelize.query(query, {
+    static async deletePatient(id) {
+      return await sequelize.query('DELETE FROM patients WHERE id = :id', {
         replacements: { id },
-        type: QueryTypes.DELETE,
+        type: QueryTypes.DELETE
       });
-      return deletedPatient;
     }
 
-    static searchPatients(param) {
-      const query = 'SELECT  * FROM patients WHERE name LIKE :search_parameter';
-      const foundPatients = sequelize.query(query, {
-        replacements: { search_parameter: `${param}%` },
-        type: QueryTypes.SELECT,
-      });
-      return foundPatients;
+    static async searchPatients(param) {
+      return await sequelize.query(
+        'SELECT * FROM patients WHERE name LIKE :search_parameter',
+        {
+          replacements: { search_parameter: `${param}%` },
+          type: QueryTypes.SELECT
+        }
+      );
     }
 
-    static countPatients() {
-      const query = 'SELECT COUNT(*) as total FROM patients';
-      const countedPatients = sequelize.query(query, {
-        type: QueryTypes.SELECT,
+    static async countPatients() {
+      return await sequelize.query('SELECT COUNT(*) as total FROM patients', {
+        type: QueryTypes.SELECT
       });
-      return countedPatients;
     }
-
   }
 
-
-  Patient.init({
-    name: DataTypes.STRING,
-    age: DataTypes.NUMBER,
-    symptoms: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Patient',
-  });
+  Patient.init(
+    {
+      name: DataTypes.STRING,
+      age: DataTypes.INTEGER, // better than DataTypes.NUMBER
+      symptoms: DataTypes.STRING
+    },
+    {
+      sequelize,
+      modelName: 'Patient'
+    }
+  );
   return Patient;
 };

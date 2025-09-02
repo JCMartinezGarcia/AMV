@@ -1,65 +1,79 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import NavigationBar from "../components/NavigationBar";
 import PatientsCard from "../components/PatientsCard";
 import PatientsTable from "../components/PatientsTable";
-import axios from "axios";
 import SearchPatients from "../components/SearchPatients";
 import RegisterPatientButton from "../components/RegisterPatientButton";
 import Footer from "../components/Footer";
-const Patients = () => {
+import axios from "axios";
 
+const Patients = () => {
     const [totalPatients, setTotalPatients] = useState(0);
     const [patients, setPatients] = useState([]);
 
+    // ✅ centralize error logging
+    const handleError = (message, error) => {
+        console.error(`${message}:`, error.message || error);
+    };
+
+    // ✅ use useCallback to avoid re-creating functions unnecessarily
+    const getPatientsCount = useCallback(async () => {
+        try {
+            const { data } = await axios.get("patients/count");
+            if (data.length) {
+                const { total } = data[0];
+                setTotalPatients(total);
+            } else {
+                setTotalPatients(0);
+            }
+        } catch (error) {
+            handleError("Error fetching patients count", error);
+        }
+    }, []);
+
+    const getPatients = useCallback(async () => {
+        try {
+            const { data } = await axios.get("patients/list");
+            setPatients(data.patients || []);
+        } catch (error) {
+            handleError("Error fetching patients list", error);
+        }
+    }, []);
+
+    // ✅ run once on mount
     useEffect(() => {
         getPatientsCount();
         getPatients();
-    }, []);
-
-    const handleError = (message, error) => {
-        console.error(`${message}:`, error.message);
-    }
-    const getPatientsCount = async () => {
-        try {
-            const response = await axios.get('patients/count');
-            if (response.data.length) {
-                const { total } = response.data[0];
-                setTotalPatients(total);
-            }
-        } catch (error) {
-            handleError('Server Error:', error);
-        }
-    }
-
-    const getPatients = async () => {
-        try {
-            const response = await axios('patients/list');
-            if (response.data.patients.length) {
-                setPatients(response.data.patients);
-            }
-        } catch (error) {
-            handleError('Server Error:', error);
-        }
-    }
+    }, [getPatientsCount, getPatients]);
 
     return (
-        <div className="bg-sky-500/25">
+        <div className="bg-sky-500/25 min-h-screen flex flex-col">
             <NavigationBar />
-            {/* <span className="text-xl font-extrabold tracking-widest">Asistente Médico Virtual</span> */}
-            <br />
-            <div className="flex flex-row justify-center">
-                <PatientsCard total={totalPatients} text={'Pacientes Registrados'} imgUrl={'src/assets/user-avatar.svg'} />
-            </div>
-            <br />
-            <br />
-            <div className="flex flex-row justify-around">
-                <SearchPatients foundPatients={setPatients} />
-                <RegisterPatientButton />
-            </div>
-            <PatientsTable patients={patients} reload={getPatients} />
+
+            <main className="flex-grow">
+                <section className="py-6">
+                    <div className="flex justify-center">
+                        <PatientsCard
+                            total={totalPatients}
+                            text="Pacientes Registrados"
+                            imgUrl="src/assets/user-avatar.svg"
+                        />
+                    </div>
+                </section>
+
+                <section className="flex justify-between items-center m-6">
+                    <SearchPatients foundPatients={setPatients} />
+                    <RegisterPatientButton />
+                </section>
+
+                <section className="px-6">
+                    <PatientsTable patients={patients} reload={getPatients} />
+                </section>
+            </main>
+
             <Footer />
         </div>
     );
-}
+};
 
 export default Patients;

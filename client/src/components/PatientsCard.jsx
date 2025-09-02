@@ -1,16 +1,25 @@
 import { Card, CardBody } from "@heroui/react";
+
 const PatientsCard = ({ total, text, imgUrl }) => {
     return (
-        <div>
-            <Card className="w-60 h-40 m-4">
-                <CardBody>
-                    <div><span><img src={imgUrl} className="m-auto" width={60} /></span></div>
-                    <span className="text-3xl font-bold m-auto">{total}</span>
-                    <p className="text-xs m-auto">{text}</p>
-                </CardBody>
-            </Card>
-        </div>
+        <Card className="w-60 h-44 m-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardBody className="flex flex-col items-center justify-center text-center space-y-2">
+                {/* Icon */}
+                <img
+                    src={imgUrl}
+                    alt="icon"
+                    width={50}
+                    className="rounded-full bg-sky-100 p-2"
+                />
+
+                {/* Total number */}
+                <span className="text-3xl font-extrabold text-gray-800">{total}</span>
+
+                {/* Label */}
+                <p className="text-sm font-medium text-gray-600">{text}</p>
+            </CardBody>
+        </Card>
     );
-}
+};
 
 export default PatientsCard;
