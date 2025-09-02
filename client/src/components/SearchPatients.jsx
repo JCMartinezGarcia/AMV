@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Input } from "@heroui/react";
 import axios from "axios";
 
-const SearchPatients = ({ foundPatients }) => {
+const SearchPatients = ({ foundPatients, reloadTable }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const handleError = (message, error) => {
@@ -12,7 +12,7 @@ const SearchPatients = ({ foundPatients }) => {
     // Debounce the search to avoid too many requests
     useEffect(() => {
         if (!searchTerm) {
-            foundPatients([]); // Clear results if input is empty
+            reloadTable();
             return;
         }
 

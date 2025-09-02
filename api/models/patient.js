@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getAllPatients() {
-      return await sequelize.query('SELECT * FROM patients', { type: QueryTypes.SELECT });
+      return await sequelize.query('SELECT * FROM patients ORDER BY id DESC', { type: QueryTypes.SELECT });
     }
 
     static async registerPatient({ name, age, symptoms }) {
