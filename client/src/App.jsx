@@ -1,20 +1,49 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Patients from "./pages/Patients";
 import PatientsRegister from "./pages/PatientsRegister";
-function App() {
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./pages/Home";
 
+function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/patients" element={<Patients />} />
-          <Route path="/patients/register" element={<PatientsRegister />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/patients"
+            element={
+              <PrivateRoute>
+                <Patients />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/patients/register"
+            element={
+              <PrivateRoute>
+                <PatientsRegister />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-      </Router>
-    </>
-  )
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;
