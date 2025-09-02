@@ -1,12 +1,12 @@
 import { Card, CardBody } from "@heroui/react";
-const PatientsCard = ({ totalOfPatients }) => {
+const PatientsCard = ({ total, text, imgUrl }) => {
     return (
         <div>
-            <Card className="w-60 h-40 m-auto">
+            <Card className="w-60 h-40 m-4">
                 <CardBody>
-                    <div><span><img src="src/assets/patients-avatar.svg" className="m-auto" width={60} /></span></div>
-                    <span className="text-3xl font-bold m-auto">{totalOfPatients}</span>
-                    <p className="text-xs m-auto">Pacientes Registrados</p>
+                    <div><span><img src={imgUrl} className="m-auto" width={60} /></span></div>
+                    <span className="text-3xl font-bold m-auto">{total}</span>
+                    <p className="text-xs m-auto">{text}</p>
                 </CardBody>
             </Card>
         </div>

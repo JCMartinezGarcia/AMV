@@ -46,11 +46,13 @@ const Patients = () => {
             <NavigationBar />
             {/* <span className="text-xl font-extrabold tracking-widest">Asistente Médico Virtual</span> */}
             <br />
-            <PatientsCard totalOfPatients={totalPatients} />
+            <div className="flex flex-row justify-center">
+                <PatientsCard total={totalPatients} text={'Pacientes Registrados'}  />
+            </div>
             <br />
             <br />
             <div className="flex flex-row justify-around">
-                <SearchPatients />
+                <SearchPatients foundPatients={setPatients} />
                 <RegisterPatientButton />
             </div>
             <PatientsTable patients={patients} reload={getPatients} />
