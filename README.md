@@ -52,7 +52,7 @@ This project is divided into two main parts:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/amv-app.git
+git clone https://github.com/JCMartinezGarcia/AMV.git
 cd amv-app
 ```
 ### 2. Install Dependencies in API Project
