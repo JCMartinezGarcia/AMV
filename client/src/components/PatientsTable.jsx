@@ -214,7 +214,8 @@ const PatientsTable = ({ patients, reload }) => {
           ) : modalType === "details" ? (
             <>
               <ModalHeader>Detalles del Paciente</ModalHeader>
-              <ModalBody>
+              <ModalBody className="p-8">
+
                 <div>
                   <label className="font-bold">Nombre:</label>
                   <p>{detailsPatient.name}</p>

@@ -21,12 +21,12 @@ const NavigationBar = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/doctors" className="hover:text-sky-800 transition-colors">
+                        <Link to="/#" className="hover:text-sky-800 transition-colors">
                             Médicos
                         </Link>
                     </li>
                     <li>
-                        <Link to="/appointments" className="hover:text-sky-800 transition-colors">
+                        <Link to="/#" className="hover:text-sky-800 transition-colors">
                             Citas
                         </Link>
                     </li>

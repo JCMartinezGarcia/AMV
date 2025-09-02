@@ -1,5 +1,6 @@
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@heroui/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const UserDropdown = () => {
     const { user, logout } = useAuth();
@@ -12,7 +13,7 @@ const UserDropdown = () => {
             />
             <Dropdown>
                 <DropdownTrigger>
-                    <span className="text-sm font-medium">{user.email}</span>
+                    <Link className="text-sm font-medium">{user.email}</Link>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                     <DropdownItem key="delete" className="text-danger" color="danger" onPress={logout}>

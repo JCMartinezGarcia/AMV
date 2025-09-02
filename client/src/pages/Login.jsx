@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Card, CardBody, Input } from "@heroui/react";
+import { Card, CardBody, Input, Button } from "@heroui/react";
 
 const Login = () => {
     const { login } = useAuth();
@@ -42,8 +42,8 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             isRequired
                         />
-                        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Login</button>
-                        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => navigate('/register')}>Registrarse</button>
+                        <Button type="submit" className="bg-blue-500 text-white p-2 rounded">Login</Button>
+                        <Button className="bg-gray-500 text-white p-2 rounded" onPress={() => navigate('/register')}>Registrarse</Button>
                     </form>
                 </CardBody>
             </Card>

@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
   Patient.init(
     {
       name: DataTypes.STRING,
-      age: DataTypes.INTEGER, // better than DataTypes.NUMBER
+      age: DataTypes.INTEGER,
       symptoms: DataTypes.STRING
     },
     {
