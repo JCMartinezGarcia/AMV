@@ -50,7 +50,7 @@ const RegisterPatientForm = () => {
 
     return (
         <div>
-            <Card className="w-1/2 m-auto max-w-xs">
+            <Card className="w-1/2 m-auto max-w-xs p-4">
                 <CardBody>
                     <Form className="w-full" onSubmit={onSubmit}>
                         <Input
@@ -80,6 +80,7 @@ const RegisterPatientForm = () => {
                             labelPlacement="outside"
                             placeholder="Escribe los sintomas del paciente"
                         />
+
                         {
                             (loading) ? <Button
                                 isLoading
@@ -95,6 +96,12 @@ const RegisterPatientForm = () => {
                                     color="primary"
                                 >Registrar</Button>
                         }
+                        <Button
+                            className="w-full"
+                            size="lg"
+                            color="default"
+                            onPress={() => navigate('/patients')}
+                        >Cancelar</Button>
 
                         {/* {submitted && (
                             <div className="text-small text-default-500">

@@ -3,6 +3,7 @@ import NavigationBar from "../components/NavigationBar";
 import PatientsCard from "../components/PatientsCard";
 import RegisterPatientForm from "../components/RegisterPatientForm";
 import axios from "axios";
+import Footer from "../components/Footer";
 
 const PatientsRegister = () => {
 
@@ -33,10 +34,13 @@ const PatientsRegister = () => {
             <NavigationBar />
             {/* <span className="text-xl font-extrabold tracking-widest">Asistente Médico Virtual</span> */}
             <br />
-            <PatientsCard totalOfPatients={totalPatients} />
+            <div className="flex flex-row justify-center">
+                <PatientsCard total={totalPatients} text={'Pacientes Registrados'} imgUrl={'../src/assets/user-avatar.svg'} />
+            </div>
             <br />
             <br />
             <RegisterPatientForm />
+            <Footer />
         </div>
     );
 }
