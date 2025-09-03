@@ -6,11 +6,10 @@ This project is divided into two main parts:
 
 - **api/** → Backend project (Node.js + Express + JWT authentication)
 - **client/** → Frontend project (React + Vite + TailwindCSS)
+  
+## 📂 Project Architecture
 
----
-
-## 🚀 Project Architecture
-
+```markdown
 ├── api/ # Backend (Express REST API)
 │ ├── src/
 │ │ ├── routes/ # Route definitions (auth, patients, doctors, etc.)
@@ -30,9 +29,9 @@ This project is divided into two main parts:
 │ └── vite.config.js # Vite configuration
 │
 └── README.md # Project documentation
-
+└── LICENSE # LICENSE
+```
 ---
-
 ## 🛠️ Tech Stack
 
 ### Backend (`api`)
@@ -47,8 +46,6 @@ This project is divided into two main parts:
 - Context API for authentication
 - TailwindCSS
 - HeroUI
-
----
 
 ## ⚙️ Setup Instructions
 
