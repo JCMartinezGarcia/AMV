@@ -7,7 +7,6 @@ const RegisterPatientButton = () => {
     return (
         <Button
             size="md"
-            radius="none"
             color="primary"
             onPress={() => navigate("/patients/register")}
         >
