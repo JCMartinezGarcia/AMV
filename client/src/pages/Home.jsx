@@ -102,7 +102,7 @@ const Home = () => {
                     <Analitics />
                 </div>
             </section>
-
+            {/* Footer */}
             <Footer />
         </div>
     );

@@ -11,7 +11,6 @@ const Patients = () => {
     const [totalPatients, setTotalPatients] = useState(0);
     const [patients, setPatients] = useState([]);
 
-    // ✅ centralize error logging
     const handleError = (message, error) => {
         console.error(`${message}:`, error.message || error);
     };

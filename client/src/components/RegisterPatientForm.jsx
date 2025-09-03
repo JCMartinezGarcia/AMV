@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const RegisterPatientForm = ({ reloadPatientsCount }) => {
-    const [submitted, setSubmitted] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -52,7 +51,6 @@ const RegisterPatientForm = ({ reloadPatientsCount }) => {
         e.preventDefault();
         setLoading(true);
         const data = Object.fromEntries(new FormData(e.currentTarget));
-        setSubmitted(data);
         registerPatient(data);
     };
 

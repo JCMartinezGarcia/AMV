@@ -1,4 +1,3 @@
-// handler/patientsHandler.js
 const {
     getPatientsController,
     registerPatientController,
@@ -8,7 +7,6 @@ const {
     patientsCountController
 } = require('../controllers');
 
-// centralized error response
 const handleError = (res, message, error, status = 500) => {
     console.error(`${message}:`, error.message);
     return res.status(status).json({ error: message, details: error.message });

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Card, CardBody, Input, Button } from "@heroui/react";
+import { Card, CardBody, Input, Button, Alert } from "@heroui/react";
 import Swal from "sweetalert2";
-
 const Register = () => {
     const { register } = useAuth();
     const [email, setEmail] = useState("");
@@ -12,19 +11,19 @@ const Register = () => {
         e.preventDefault();
         try {
             await register(email, password);
-            // Swal.fire({
-            //     icon: "success",
-            //     title: "Registro Exitoso",
-            //     text: "El usuario fue registrado con exito",
-            //     confirmButtonText: "Ok",
-            // });
+            Swal.fire({
+                icon: "success",
+                title: "Registro Exitoso",
+                text: "El usuario fue registrado con exito. Serás redirigido a la página de Login",
+                confirmButtonText: "Ok",
+            });
         } catch (error) {
-            // Swal.fire({
-            //     icon: "Error",
-            //     title: error.response?.data?.error || "Registro Fallido",
-            //     text: error.response?.data?.error,
-            //     confirmButtonText: "Ok",
-            // });
+            Swal.fire({
+                icon: "Error",
+                title: error.response?.data?.error || "Registro Fallido",
+                text: error.response?.data?.error,
+                confirmButtonText: "Ok",
+            });
         }
     };
 
@@ -50,7 +49,7 @@ const Register = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <Button type="submit" color="primary">Registrarse</Button>
+                        <Button type="submit" className="bg-blue-500 text-white p-2 rounded">Registrarse</Button>
                     </form>
                 </CardBody>
             </Card>

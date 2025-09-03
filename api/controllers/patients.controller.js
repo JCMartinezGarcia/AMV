@@ -1,4 +1,3 @@
-// controller/patientsController.js
 const { ValidationError } = require('sequelize');
 const { Patient } = require('../models');
 const Joi = require('joi');
@@ -20,7 +19,9 @@ const registerPatientController = async (patientData) => {
 };
 
 const updatePatientController = async (patientData, id) => {
-    return await Patient.updatePatient(patientData, id);
+    const { error, value } = patientSchema.validate(patientData);
+    if (error) throw new ValidationError(error.message);
+    return await Patient.updatePatient(value, id);
 };
 
 const deletePatientController = async (id) => {
