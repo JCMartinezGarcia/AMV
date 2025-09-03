@@ -31,7 +31,6 @@ This project is divided into two main parts:
 └── README.md # Project documentation
 └── LICENSE # LICENSE
 ```
----
 ## 🛠️ Tech Stack
 
 ### Backend (`api`)
