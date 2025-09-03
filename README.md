@@ -1,5 +1,7 @@
 # AMV Application
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 This project is divided into two main parts:
 
 - **api/** → Backend project (Node.js + Express + JWT authentication)
