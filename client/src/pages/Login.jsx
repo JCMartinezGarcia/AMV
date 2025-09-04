@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Card, CardBody, Input, Button } from "@heroui/react";
+import { Card, CardBody, Input, Button, Alert } from "@heroui/react";
 
 const Login = () => {
     const { login } = useAuth();
@@ -23,7 +23,13 @@ const Login = () => {
         <div className="flex justify-center items-center h-screen bg-sky-500/25">
             <Card>
                 <CardBody>
-
+                    <div className="flex items-center justify-center w-full">
+                        <div className="flex flex-col w-full">
+                            <div key={'primary'} className="w-full flex items-center">
+                                <Alert color={'primary'} title={'Si ya tienes una cuenta, inicia sesión.'} />
+                            </div>
+                        </div>
+                    </div>
                     <form onSubmit={handleSubmit} className="flex flex-col w-80 gap-4 p-6">
                         <h2 className="text-xl font-bold text-center">Login</h2>
                         <Input
