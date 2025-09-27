@@ -1,44 +1,18 @@
 # Virtual Medical Assistant
 A web application that helps doctors schedule appoinments and visualize relevant data for them with interactive charts. Also allows them to have registered all their patients.
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-This project is divided into two main parts:
-
-- **api/** → Backend project (Node.js + Express + JWT authentication)
-- **client/** → Frontend project (React + Vite + TailwindCSS)
+## ✨ Features
+- User authentication with JWT
+- Create, edit, and delete tasks
+- Responsive design for mobile and desktop
   
-## 📂 Project Architecture
-
-```markdown
-├── api/ # Backend (Express REST API)
-│ ├── src/
-│ │ ├── routes/ # Route definitions (auth, patients, doctors, etc.)
-│ │ ├── models/ # Database models (e.g., User, Patient, Appointment)
-│ │ ├── controllers/ # Business logic for each route
-│ │ └── middleware/ # Auth middleware (JWT verification)
-│ ├── package.json # Dependencies for backend
-│ └── ...
-│
-├── client/ # Frontend (React + Vite)
-│ ├── src/
-│ │ ├── components/ # Reusable UI components
-│ │ ├── context/ # AuthContext and global state
-│ │ ├── pages/ # Page components (Login, Dashboard, Patients, etc.)
-│ │ └── routes/ # Protected routes setup
-│ ├── package.json # Dependencies for frontend
-│ └── vite.config.js # Vite configuration
-│
-└── README.md # Project documentation
-└── LICENSE # LICENSE
-```
 ## 🛠️ Tech Stack
 
 ### Backend (`api`)
 - Node.js + Express
 - JWT Authentication
 - Axios (for client requests testing)
-- PostgreSQL / MySQL / MongoDB (depending on your setup)
+- SQLite
 
 ### Frontend (`client`)
 - React + Vite
