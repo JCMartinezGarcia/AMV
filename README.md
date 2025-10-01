@@ -1,6 +1,8 @@
 # Virtual Medical Assistant
 A web application that helps doctors schedule appoinments and visualize relevant data for them with interactive charts. Also allows them to have registered all their patients.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ## ✨ Features
 - User authentication with JWT
 - Create, edit, and delete tasks
@@ -23,31 +25,37 @@ A web application that helps doctors schedule appoinments and visualize relevant
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone the Repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/JCMartinezGarcia/AMV.git
-cd AMV
 ```
-### 2. Install Dependencies in API Project
+### 2. Navigate into the folder
+```
+cd AMV/api
+```
+### 3. Install dependencies
 ```bash
-cd api
 npm install
 ```
-### 3. Run API Migrations and Seeders
+### 4. Run API migrations and seeders
 ```bash
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 ```
-### 6. Run API Project
+### 5. Run API project
 ```bash
 npm start
 ```
-### 4. Install Dependencies in Client Project
+### 6. Navigate into the client folder
 ```bash
-cd client
+cd AMV/client
+```
+### 6. Install dependencies
+```
 npm install
 ```
-### 5. Run Client Project
+### 7. Run project
 ```bash
 npm run dev
 ```
+### 8. Go to the localhost URL in your browser
